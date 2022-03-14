@@ -1,10 +1,10 @@
 import React from 'react';
 import './App.css';
-import Search from './Search/Search';
+import SearchBar from './Search/SearchBar';
 
 function App() {
   return (
-      <Search />
+      <SearchBar />
   );
 }
 
