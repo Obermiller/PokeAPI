@@ -1,9 +1,10 @@
-import React from 'react';
+import { Search } from '@mui/icons-material';
+import { IconButton, TextField } from '@mui/material';
 import { Pokemon, PokemonClient } from 'pokenode-ts';
-import { FormEvent, useState } from 'react';
+import React, { ChangeEvent, useState } from 'react';
 import PokemonInformation, { AjaxResult } from './PokemonInformation';
 
-function Search() {
+export default function SearchBar() {
 	const [isLoaded, setIsLoaded] = useState(false);
 	const [error, setError] = useState<AjaxResult>();
 	const [pokemon, setPokemon] = useState<Pokemon | undefined>();
@@ -11,7 +12,7 @@ function Search() {
 
 	const pokeApi = new PokemonClient();
 
-	const searchInputHandler = (e: FormEvent<HTMLInputElement>) => setSearchInputText(e.currentTarget.value);
+	const searchInputHandler = (e: ChangeEvent<HTMLInputElement>) => setSearchInputText(e.currentTarget.value);
 
 	const getPokemon = async () => {
 		await pokeApi
@@ -26,12 +27,12 @@ function Search() {
 	return (
 		<div>
 			<h3>Search for a PokeMon by name</h3>
-			<input type='search' placeholder='PokeMon' onChange={searchInputHandler} />
-			<button onClick={getPokemon}>Search</button>
+			<TextField label='Search' variant='outlined' onChange={searchInputHandler} />
+			<IconButton size='large' aria-label='search' onClick={getPokemon}>
+				<Search />
+			</IconButton>
 
 			<PokemonInformation isLoaded={isLoaded} error={error} pokemon={pokemon} />
 		</div>
 	);
 }
-
-export default Search;

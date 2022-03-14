@@ -1,130 +1,84 @@
-import React, { useContext, useEffect, useState } from 'react';
-import { capitalizeFirstLetter } from '../UtilityMethods';
-import { PokemonContext } from './PokemonContext';
+import { Backdrop, Box, Fade, Link, Modal, Typography } from '@mui/material';
 import { PokemonClient, Type } from 'pokenode-ts';
+import React, { useCallback, useState } from 'react';
 import { AjaxResult } from './PokemonInformation';
+import { TypeContext } from './TypeContext';
+import TypeTabs from './TypeTabs';
 
 type PokemonTypeProps = {
-	id: number;
 	name: string;
 }
 
-function PokemonType({id, name}: PokemonTypeProps): JSX.Element {
-	const [isLoading, setIsLoading] = useState(false);
-	const [isLoaded, setIsLoaded] = useState(false);
-	const [error, setError] = useState<AjaxResult>();
+const style = {
+	position: 'absolute',
+	top: '50%',
+	left: '50%',
+	transform: 'translate(-50%, -50%)',
+	width: 700,
+	height: 600,
+	bgcolor: 'background.paper',
+	border: '2px solid #000',
+	boxShadow: 24,
+	p: 4,
+};
+
+export default function PokemonType({name}: PokemonTypeProps): JSX.Element {
 	const [type, setType] = useState<Type | undefined>();
-	const pokemonName = useContext(PokemonContext);
+	//Ajax hooks
+	const [isLoading, setIsLoading] = useState(false);
+	const [error, setError] = useState<AjaxResult>();
+	//Modal hooks
+	const [open, setOpen] = useState(false);
 
-	const pokeApi = new PokemonClient();
-	const getType = async () => {
-		if (!isLoading) {
-			setIsLoading(true);
-
-			await pokeApi
-				.getTypeByName(name.toLowerCase())
-				.then((result: Type) => {
-					setType(result);
-					setIsLoaded(true);
-				})
-				.catch((err) => {
-					setIsLoaded(true);
-					setError(err);
-				});
-		}
-	};
-
-	useEffect(() => {
-		getType();
-	});
-
-	if (!isLoaded && !error) {
-		return <></>;
-	} else if (isLoaded && type) {
-		return (
-			<div>
-				<li key={id}>{capitalizeFirstLetter(name)}</li>
-				{
-					//Some kind of modal
-				}
-				<div>
-					<p>{name} has a type advantage over</p>
-					<table>
-						<thead>
-						<tr>
-							<td>Type</td>
-							<td>Advantage</td>
-						</tr>
-						</thead>
-						<tbody>
-						{type.damage_relations.double_damage_to.map(x => {
-							return (
-								<tr key={x.name}>
-									<td>{capitalizeFirstLetter(x.name)}</td>
-									<td>Double damage to</td>
-								</tr>
-							);
-						})}
-						{type.damage_relations.half_damage_from.map(x => {
-							return (
-								<tr key={x.name}>
-									<td>{capitalizeFirstLetter(x.name)}</td>
-									<td>Half damage from</td>
-								</tr>
-							);
-						})}
-						{type.damage_relations.no_damage_from.map(x => {
-							return (
-								<tr key={x.name}>
-									<td>{capitalizeFirstLetter(x.name)}</td>
-									<td>No damage from</td>
-								</tr>
-							);
-						})}
-						</tbody>
-					</table>
-
-					<p>{name} has a type disadvantage to</p>
-					<table>
-						<thead>
-						<tr>
-							<td>Type</td>
-							<td>Disadvantage</td>
-						</tr>
-						</thead>
-						<tbody>
-						{type.damage_relations.double_damage_from.map(x => {
-							return (
-								<tr key={x.name}>
-									<td>{capitalizeFirstLetter(x.name)}</td>
-									<td>Double damage from</td>
-								</tr>
-							);
-						})}
-						{type.damage_relations.half_damage_to.map(x => {
-							return (
-								<tr key={x.name}>
-									<td>{capitalizeFirstLetter(x.name)}</td>
-									<td>Half damage to</td>
-								</tr>
-							);
-						})}
-						{type.damage_relations.no_damage_to.map(x => {
-							return (
-								<tr key={x.name}>
-									<td>{capitalizeFirstLetter(x.name)}</td>
-									<td>No damage to</td>
-								</tr>
-							);
-						})}
-						</tbody>
-					</table>
-				</div>
-			</div>
-		);
-	} else {
-		return <div>{error?.message}</div>;
+	const handleClose = () => {
+		setOpen(false);
 	}
-}
 
-export default PokemonType;
+	const handleOpen = useCallback(async () => {
+		if (isLoading) {
+			return
+		}
+
+		setIsLoading(true);
+
+		await new PokemonClient().getTypeByName(name.toLowerCase())
+			.then((result: Type) => setType(result))
+			.catch((err) => setError(err))
+			.finally(() => setIsLoading(false));
+
+		setOpen(true);
+	}, [name, isLoading]);
+
+	return (
+		<div>
+			<Link component='button' variant='body2' onClick={handleOpen}>
+				{name}
+			</Link>
+			<Modal
+				aria-labelledby='type'
+				aria-describedby='strengths and weaknesses'
+				open={open}
+				onClose={handleClose}
+				closeAfterTransition
+				BackdropComponent={Backdrop}
+				BackdropProps={{ timeout: 500 }}
+			>
+				<Fade in={open}>
+					<Box sx={style}>
+						{!error &&
+							<>
+                                <Typography variant='h6' component='h2'>
+									{name}
+                                </Typography>
+                                <TypeContext.Provider value = {type}>
+                                    <TypeTabs />
+                                </TypeContext.Provider>
+							</>
+						}
+						{error?.message}
+					</Box>
+				</Fade>
+			</Modal>
+		</div>
+	);
+}
