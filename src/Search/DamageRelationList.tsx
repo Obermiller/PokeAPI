@@ -6,7 +6,7 @@ import { capitalizeFirstLetter } from '../UtilityMethods';
 const style = {
 	width: '100%',
 	maxWidth: 360,
-	bgcolor: 'background.paper',
+	bgcolor: 'background.paper'
 };
 
 type DamageRelationListProps = {
@@ -14,17 +14,17 @@ type DamageRelationListProps = {
 	damageRelations: NamedAPIResource[]
 }
 
-export default function DamageRelationList({ariaLabel, damageRelations}: DamageRelationListProps): JSX.Element{
+export default function DamageRelationList({ariaLabel, damageRelations}: DamageRelationListProps): JSX.Element {
 	return (
 		<List sx={style} component='nav' aria-label={ariaLabel}>
-			{damageRelations.map(x => {
+			{damageRelations.map((x, i, item) => {
 				return (
-					<>
-						<ListItem key={x.name} button>
+					<div key={x.name}>
+						<ListItem key={x.name}>
 							<ListItemText primary={capitalizeFirstLetter(x.name)} />
 						</ListItem>
-						<Divider />
-					</>
+						{ i + 1 !== item.length && <Divider /> }
+					</div>
 				);
 			})}
 		</List>

@@ -10,7 +10,7 @@ type PokemonTypeProps = {
 }
 
 const style = {
-	position: 'absolute' as 'absolute',
+	position: 'absolute',
 	top: '50%',
 	left: '50%',
 	transform: 'translate(-50%, -50%)',
@@ -64,8 +64,8 @@ export default function PokemonType({name}: PokemonTypeProps): JSX.Element {
 					{name}
 				</Link>
 				<Modal
-					aria-labelledby='Type'
-					aria-describedby='Strengths and weaknesses'
+					aria-labelledby='type'
+					aria-describedby='strengths and weaknesses'
 					open={open}
 					onClose={handleClose}
 					closeAfterTransition

@@ -26,7 +26,7 @@ export default function PokemonInformation({isLoaded, error, pokemon}: PokemonIn
         return (
             <div>
                 <h2>{name}</h2>
-                <img src={pokemon.sprites.front_default} alt="Pokemon pic"/>
+                <img src={pokemon.sprites.front_default} alt={name}/>
                 <div>
                     <label>Type{pokemon.types.length > 1 ? 's' : ''}:</label>
                     {pokemon.types.map((type, i) => <PokemonType key={i} name={capitalizeFirstLetter(type.type.name)} />)}

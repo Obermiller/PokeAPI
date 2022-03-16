@@ -1,4 +1,4 @@
-import { Box, Tab, Tabs, Typography } from '@mui/material';
+import { Box, Tab, Tabs } from '@mui/material';
 import React, { ReactNode, SyntheticEvent, useContext, useState } from 'react';
 import DamageRelationTabs from './DamageRelationTabs';
 import { TypeContext } from './TypeContext';
@@ -15,8 +15,8 @@ export const TabPanel = (props: TabPanelProps) => {
 	return (
 		<div role='tabpanel' hidden={value !== index} id={`tabpanel-${index}`} aria-labelledby={`tab-${index}`} {...other}>
 			{value === index && (
-				<Box sx={{ p: 3 }}>
-					<Typography>{children}</Typography>
+				<Box>
+					{children}
 				</Box>
 			)}
 		</div>
@@ -42,7 +42,7 @@ export default function TypeTabs(): JSX.Element {
 		const damageRelations = type.damage_relations;
 		return (
 			<Box sx={{ flexGrow: 1, bgcolor: 'background.paper', display: 'flex', height: 500 }}>
-				<Tabs orientation='vertical' variant='scrollable' value={value} onChange={handleChange} aria-label='Vertical tabs example' sx={{ borderRight: 1, borderColor: 'divider' }}>
+				<Tabs orientation='vertical' variant='scrollable' value={value} onChange={handleChange} aria-label='offensive or defensive' sx={{ borderRight: 1, borderColor: 'divider' }}>
 					<Tab label='Offensive' {...tabHeaderProps(0)} />
 					<Tab label='Defensive' {...tabHeaderProps(1)} />
 				</Tabs>

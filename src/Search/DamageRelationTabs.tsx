@@ -20,7 +20,7 @@ export default function DamageRelationTabs({ doubleDamageTypes, halfDamageTypes,
 	return (
 		<Box sx={{ width: '100%' }}>
 			<Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-				<Tabs value={value} variant='scrollable' onChange={handleChange} aria-label='basic tabs example'>
+				<Tabs value={value} variant='scrollable' onChange={handleChange} aria-label='damage relations tabs'>
 					<Tab key={0} label='Double Damage' {...tabHeaderProps(0)} />
 					<Tab key={1} label='Half Damage' {...tabHeaderProps(1)} />
 					<Tab key={2} label='No Effect' {...tabHeaderProps(2)} />

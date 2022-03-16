@@ -53,7 +53,7 @@ export function MovesTable({isNatural} : MovesTableProps): JSX.Element {
 
 			<Paper sx={{ width: '100%', overflow: 'hidden' }}>
 				<TableContainer sx={{ maxHeight: 1000 }}>
-					<Table stickyHeader aria-label='sticky table'>
+					<Table stickyHeader aria-label='moves table'>
 						<TableHead>
 							<TableRow>
 								{columns.map((column) => (
