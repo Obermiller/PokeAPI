@@ -23,7 +23,7 @@ export default function DamageRelationList({ariaLabel, damageRelations}: DamageR
 						<ListItem key={x.name}>
 							<ListItemText primary={capitalizeFirstLetter(x.name)} />
 						</ListItem>
-						{ i + 1 !== item.length && <Divider /> }
+						<Divider />
 					</div>
 				);
 			})}

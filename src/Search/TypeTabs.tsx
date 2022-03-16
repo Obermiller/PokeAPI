@@ -41,7 +41,7 @@ export default function TypeTabs(): JSX.Element {
 	if (type) {
 		const damageRelations = type.damage_relations;
 		return (
-			<Box sx={{ flexGrow: 1, bgcolor: 'background.paper', display: 'flex', height: 500 }}>
+			<Box sx={{ flexGrow: 1, bgcolor: 'background.paper', display: 'flex', height: '100%' }}>
 				<Tabs orientation='vertical' variant='scrollable' value={value} onChange={handleChange} aria-label='offensive or defensive' sx={{ borderRight: 1, borderColor: 'divider' }}>
 					<Tab label='Offensive' {...tabHeaderProps(0)} />
 					<Tab label='Defensive' {...tabHeaderProps(1)} />
