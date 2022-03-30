@@ -30,9 +30,7 @@ export default function PokemonType({name}: PokemonTypeProps): JSX.Element {
 	//Modal hooks
 	const [open, setOpen] = useState(false);
 
-	const handleClose = () => {
-		setOpen(false);
-	}
+	const handleClose = () => setOpen(false);
 
 	const handleOpen = useCallback(async () => {
 		if (isLoading) {

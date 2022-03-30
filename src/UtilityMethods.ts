@@ -1,8 +1,7 @@
+import { capitalize } from '@mui/material';
 import { PokemonMove } from 'pokenode-ts';
 
-export const capitalizeFirstLetter = (str: string) => str.charAt(0).toUpperCase() + str.slice(1);
-
-export const formatMoveDisplay = (move: string) => capitalizeFirstLetter(move) //Capitalize first letter
+export const formatMoveDisplay = (move: string) => capitalize(move) //Capitalize first letter
 	.replace(/-[a-z]/g, match => match.toUpperCase()) //Capitalize after dashes
 	.replace('-', ' '); //Remove dashes
 

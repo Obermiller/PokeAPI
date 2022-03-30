@@ -1,31 +1,26 @@
 import {
+	capitalize,
 	Paper,
 	Table,
 	TableBody,
 	TableCell,
 	TableContainer,
-	TableHead,
 	TablePagination,
 	TableRow
 } from '@mui/material';
 import React, { ChangeEvent, useContext, useState } from 'react';
-import { capitalizeFirstLetter, formatMoveDisplay, levelSort, stringSort } from '../UtilityMethods';
-import { MoveContext } from './MoveContext';
+import { levelSort, stringSort } from '../UtilityMethods';
+import MoveInformation from './MoveInformation';
+import { PokemonMoveContext } from './PokemonMoveContext';
 
 type MovesTableProps = {
 	isNatural: boolean
 }
 
-type Column = {
-	id: string;
-	label: string;
-	minWidth: number;
-}
-
 export function MovesTable({isNatural} : MovesTableProps): JSX.Element {
 	const [page, setPage] = useState(0);
 	const [rowsPerPage, setRowsPerPage] = useState(10);
-	const moves = useContext(MoveContext);
+	const moves = useContext(PokemonMoveContext);
 
 	const handleChangePage = (event: unknown, newPage: number) => {
 		setPage(newPage);
@@ -35,13 +30,6 @@ export function MovesTable({isNatural} : MovesTableProps): JSX.Element {
 		setRowsPerPage(+event.target.value);
 		setPage(0);
 	};
-
-	const columns: Column[] = [
-		...[{ id: 'name', label: 'Name', minWidth: 100 }],
-		...(isNatural
-			? [{ id: 'level', label: 'Level', minWidth: 100 }]
-			: [{ id: 'method', label: 'Learning Method', minWidth: 100 }])
-	];
 
 	const rows = isNatural
 		? moves.filter(x => x.version_group_details.map(y => y.level_learned_at)[0] > 0).sort((x, y) => levelSort(x, y))
@@ -54,35 +42,16 @@ export function MovesTable({isNatural} : MovesTableProps): JSX.Element {
 			<Paper sx={{ width: '100%', overflow: 'hidden' }}>
 				<TableContainer sx={{ maxHeight: 1000 }}>
 					<Table stickyHeader aria-label='moves table'>
-						<TableHead>
-							<TableRow>
-								{columns.map((column) => (
-									<TableCell key={column.id} align='left' style={{ minWidth: column.minWidth }}>
-										{column.label}
-									</TableCell>
-								))}
-							</TableRow>
-						</TableHead>
 						<TableBody>
 							{rows
 								.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
 								.map((row) => {
+									const moveName = row.move.name;
 									return (
-										<TableRow hover key={row.move.name}>
-											{columns.map((column) => {
-												const columnId = column.id;
-												return (
-													<TableCell key={columnId} align='left'>
-														{
-															columnId === 'name'
-																? formatMoveDisplay(row.move.name)
-																: isNatural
-																	? row.version_group_details.map(x => x.level_learned_at)[0]
-																	: capitalizeFirstLetter(row.version_group_details.map(x => x.move_learn_method)[0].name)
-														}
-													</TableCell>
-												);
-											})}
+										<TableRow hover key={moveName}>
+											<TableCell key={moveName} align='left'>
+												<MoveInformation name={moveName} level={row.version_group_details.map(x => x.level_learned_at)[0]} learnMethod={capitalize(row.version_group_details.map(x => x.move_learn_method)[0].name)} />
+											</TableCell>
 										</TableRow>
 									);
 								})}

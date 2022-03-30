@@ -1,7 +1,6 @@
-import { Divider, List, ListItem, ListItemText } from '@mui/material';
+import { capitalize, Divider, List, ListItem, ListItemText } from '@mui/material';
 import { NamedAPIResource } from 'pokenode-ts';
 import React from 'react';
-import { capitalizeFirstLetter } from '../UtilityMethods';
 
 const style = {
 	width: '100%',
@@ -17,11 +16,11 @@ type DamageRelationListProps = {
 export default function DamageRelationList({ariaLabel, damageRelations}: DamageRelationListProps): JSX.Element {
 	return (
 		<List sx={style} component='nav' aria-label={ariaLabel}>
-			{damageRelations.map((x, i, item) => {
+			{damageRelations.map((x) => {
 				return (
 					<div key={x.name}>
 						<ListItem key={x.name}>
-							<ListItemText primary={capitalizeFirstLetter(x.name)} />
+							<ListItemText primary={capitalize(x.name)} />
 						</ListItem>
 						<Divider />
 					</div>

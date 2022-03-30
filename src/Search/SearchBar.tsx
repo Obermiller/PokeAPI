@@ -4,7 +4,7 @@ import { Pokemon, PokemonClient } from 'pokenode-ts';
 import React, { ChangeEvent, useState } from 'react';
 import PokemonInformation, { AjaxResult } from './PokemonInformation';
 
-export default function SearchBar() {
+export default function SearchBar(): JSX.Element {
 	const [isLoaded, setIsLoaded] = useState(false);
 	const [error, setError] = useState<AjaxResult>();
 	const [pokemon, setPokemon] = useState<Pokemon | undefined>();
