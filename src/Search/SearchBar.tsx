@@ -1,7 +1,7 @@
 import { Search } from '@mui/icons-material';
-import { IconButton, TextField } from '@mui/material';
+import { Box, IconButton, TextField, Typography } from '@mui/material';
 import { Pokemon, PokemonClient } from 'pokenode-ts';
-import React, { ChangeEvent, useState } from 'react';
+import React, { ChangeEvent, KeyboardEvent, useRef, useState } from 'react';
 import PokemonInformation, { AjaxResult } from './PokemonInformation';
 
 export default function SearchBar(): JSX.Element {
@@ -10,12 +10,17 @@ export default function SearchBar(): JSX.Element {
 	const [pokemon, setPokemon] = useState<Pokemon | undefined>();
 	const [searchInputText, setSearchInputText] = useState('');
 
-	const pokeApi = new PokemonClient();
+	const searchButton = useRef<HTMLButtonElement>(null);
 
+	const handleKeyDown = (e: KeyboardEvent<HTMLDivElement>) => {
+		if (e.key === 'Enter' && searchButton.current) {
+			searchButton.current.click();
+		}
+	}
 	const searchInputHandler = (e: ChangeEvent<HTMLInputElement>) => setSearchInputText(e.currentTarget.value);
 
 	const getPokemon = async () => {
-		await pokeApi
+		await new PokemonClient()
 			.getPokemonByName(searchInputText.toLowerCase())
 			.then((result: Pokemon) => {
 					setPokemon(result);
@@ -25,14 +30,18 @@ export default function SearchBar(): JSX.Element {
 	};
 
 	return (
-		<div>
-			<h3>Search for a PokeMon by name</h3>
-			<TextField label='Search' variant='outlined' onChange={searchInputHandler} />
-			<IconButton size='large' aria-label='search' onClick={getPokemon}>
-				<Search />
-			</IconButton>
+		<>
+			<div className='search-bar'>
+				<Typography variant='h5'>Search for a PokeMon by name</Typography>
+				<Box display='flex' alignItems='right' justifyContent='right'>
+					<TextField label='Search' variant='outlined' onChange={searchInputHandler} onKeyDown={handleKeyDown} />
+					<IconButton size='large' aria-label='search' ref={searchButton} onClick={getPokemon}>
+						<Search />
+					</IconButton>
+				</Box>
+			</div>
 
 			<PokemonInformation isLoaded={isLoaded} error={error} pokemon={pokemon} />
-		</div>
+		</>
 	);
 }

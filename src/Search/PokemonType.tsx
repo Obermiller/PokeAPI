@@ -48,7 +48,7 @@ export default function PokemonType({name}: PokemonTypeProps): JSX.Element {
 	}, [name, isLoading]);
 
 	return (
-		<div>
+		<>
 			<Link component='button' variant='body2' onClick={handleOpen}>
 				{name}
 			</Link>
@@ -77,6 +77,6 @@ export default function PokemonType({name}: PokemonTypeProps): JSX.Element {
 					</Box>
 				</Fade>
 			</Modal>
-		</div>
+		</>
 	);
 }

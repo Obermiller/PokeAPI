@@ -6,7 +6,7 @@ import {
 	TableCell,
 	TableContainer,
 	TablePagination,
-	TableRow
+	TableRow, Typography
 } from '@mui/material';
 import React, { ChangeEvent, useContext, useState } from 'react';
 import { levelSort, stringSort } from '../UtilityMethods';
@@ -37,7 +37,7 @@ export function MovesTable({isNatural} : MovesTableProps): JSX.Element {
 
 	return (
 		<div>
-			<h3>{isNatural ? 'Natural' : 'Learnable'} Moves</h3>
+			<Typography variant='h5'>{isNatural ? 'Natural' : 'Learnable'} Moves</Typography>
 
 			<Paper sx={{ width: '100%', overflow: 'hidden' }}>
 				<TableContainer sx={{ maxHeight: 1000 }}>

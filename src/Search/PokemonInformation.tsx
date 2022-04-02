@@ -1,7 +1,8 @@
-import { capitalize } from '@mui/material';
+import { capitalize, Typography } from '@mui/material';
 import Grid from '@mui/material/Grid';
 import { Pokemon } from 'pokenode-ts';
 import React from 'react';
+import ImageContainer from './ImageContainer';
 import { PokemonMoveContext } from './PokemonMoveContext';
 import { MovesTable } from './MovesTable';
 import PokemonType from './PokemonType';
@@ -25,13 +26,24 @@ export default function PokemonInformation({isLoaded, error, pokemon}: PokemonIn
 
         return (
             <div>
-                <h2>{name}</h2>
-                <img src={pokemon.sprites.front_default} alt={name}/>
+                <Typography variant='h1'>{name}</Typography>
                 <div>
-                    <label>Type{pokemon.types.length > 1 ? 's' : ''}:</label>
-                    {pokemon.types.map((type, i) => <PokemonType key={i} name={capitalize(type.type.name)} />)}
+                    <Typography variant='h4'>
+                        Type{pokemon.types.length > 1 ? 's' : ''}:&nbsp;
+                        {pokemon.types.map((type, i, types) => {
+                            return (
+                                <>
+                                    <PokemonType key={ i } name={ capitalize(type.type.name) }/>
+                                    {types.length !== i + 1 &&
+                                        <>,&nbsp;</>
+                                    }
+                                </>
+                            );
+                        })}
+                    </Typography>
                 </div>
-                <h2>Move Set</h2>
+                <ImageContainer name={name} sprites={pokemon.sprites} />
+                <Typography variant='h4'>Move Set</Typography>
                 <Grid container spacing={2}>
                     <PokemonMoveContext.Provider value={pokemon.moves}>
                         <Grid item xs={6}>
@@ -45,6 +57,6 @@ export default function PokemonInformation({isLoaded, error, pokemon}: PokemonIn
             </div>
         );
     } else {
-        return <div>{error?.message}</div>;
+        return <div>{error?.message} - Check the spelling of the PokeMon's name.</div>;
     }
 }
