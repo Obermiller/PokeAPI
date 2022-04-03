@@ -1,7 +1,7 @@
 import { Box, Tab, Tabs } from '@mui/material';
-import React, { ReactNode, SyntheticEvent, useContext, useState } from 'react';
+import { TypeRelations } from 'pokenode-ts';
+import React, { ReactNode, SyntheticEvent, useState } from 'react';
 import DamageRelationTabs from './DamageRelationTabs';
-import { TypeContext } from './TypeContext';
 
 type TabPanelProps = {
 	children?: ReactNode;
@@ -9,9 +9,7 @@ type TabPanelProps = {
 	value: number;
 }
 
-export const TabPanel = (props: TabPanelProps) => {
-	const { children, value, index, ...other } = props;
-
+export const TabPanel = ({ children, value, index, ...other }: TabPanelProps) => {
 	return (
 		<div role='tabpanel' hidden={value !== index} id={`tabpanel-${index}`} aria-labelledby={`tab-${index}`} {...other}>
 			{value === index && (
@@ -30,16 +28,18 @@ export const tabHeaderProps = (index: number) => {
 	};
 }
 
-export default function TypeTabs(): JSX.Element {
+type TypeTabProps = {
+	damageRelations?: TypeRelations
+}
+
+export default function TypeTabs({damageRelations} : TypeTabProps): JSX.Element {
 	const [value, setValue] = useState(0);
-	const type = useContext(TypeContext);
 
 	const handleChange = (event: SyntheticEvent, newValue: number) => {
 		setValue(newValue);
 	};
 
-	if (type) {
-		const damageRelations = type.damage_relations;
+	if (damageRelations) {
 		return (
 			<Box className='type-tab-container' sx={{ bgcolor: 'background.paper' }}>
 				<Tabs orientation='vertical' variant='scrollable' value={value} onChange={handleChange} aria-label='offensive or defensive' sx={{ borderColor: 'divider' }}>

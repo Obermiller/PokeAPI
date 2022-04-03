@@ -3,7 +3,6 @@ import { PokemonClient, Type } from 'pokenode-ts';
 import React, { useCallback, useContext, useState } from 'react';
 import { LoadedTypeContext } from './LoadedTypeContext';
 import { AjaxResult } from './PokemonInformation';
-import { TypeContext } from './TypeContext';
 import TypeTabs from './TypeTabs';
 
 type PokemonTypeProps = {
@@ -73,9 +72,7 @@ export default function PokemonType({name}: PokemonTypeProps): JSX.Element {
                                 <Typography variant='h6' component='h2'>
 									{name}
                                 </Typography>
-                                <TypeContext.Provider value={type}>
-                                    <TypeTabs />
-                                </TypeContext.Provider>
+								<TypeTabs damageRelations={type?.damage_relations} />
 							</>
 						}
 						{error?.message}
