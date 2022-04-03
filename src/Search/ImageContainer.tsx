@@ -10,7 +10,7 @@ type ImageContainerProps = {
 export default function ImageContainer({ name, sprites }: ImageContainerProps): JSX.Element {
 	return (
 		<Container maxWidth='sm'>
-			<ImageList sx={{ width: 500, height: 500 }} cols={2}>
+			<ImageList className='image-list' cols={2}>
 				<ImageListItem>
 					<img src={`${sprites.front_default}`} alt={`${name} front`} loading='lazy' />
 				</ImageListItem>

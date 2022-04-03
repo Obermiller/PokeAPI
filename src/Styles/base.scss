@@ -3,6 +3,30 @@ h1, h2, h3, h4, h5, h6 {
   text-align: center;
 }
 
+//Image Container
+.image-list {
+  display: block;
+  height: 500px;
+  margin-left: auto;
+  margin-right: auto;
+  width: 500px;
+}
+
+//Moves Table
+.move-table-wrapper {
+  overflow: hidden;
+  width: 100%;
+
+  .move-table-container {
+    max-height: 1000px;
+
+    .move-name {
+      flex-shrink: 0;
+      width: 50%;
+    }
+  }
+}
+
 //Search Bar
 .search-bar {
   align-items: end;
@@ -10,5 +34,35 @@ h1, h2, h3, h4, h5, h6 {
 
   h5 {
     text-align: end;
+  }
+}
+
+//Type Modal
+.type-modal {
+  border: 2px solid #000;
+  height: 600px;
+  left: 50%;
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 700px;
+
+  .type-tab-container {
+    display: flex;
+    flex-grow: 1;
+    height: 100%;
+
+    .type-tab {
+      border-right: 1px;
+    }
+  }
+
+  .damage-relation-tab {
+    width: 100%;
+
+    .damage-relation-list {
+      max-width: 360px;
+      width: 100%;
+    }
   }
 }

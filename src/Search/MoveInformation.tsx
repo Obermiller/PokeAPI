@@ -4,6 +4,7 @@ import { Move, MoveClient } from 'pokenode-ts';
 import React, { useCallback, useState } from 'react';
 import { formatMoveDisplay } from '../UtilityMethods';
 import { AjaxResult } from './PokemonInformation';
+import PokemonType from './PokemonType';
 
 type MoveInformationProps = {
 	name: string,
@@ -43,7 +44,7 @@ export default function MoveInformation({ name, level, learnMethod }: MoveInform
 				id='panel-header'
 				onClick={getData}
 			>
-				<Typography sx={{ width: '50%', flexShrink: 0 }}>
+				<Typography className='move-name'>
 					{formatMoveDisplay(name)}
 				</Typography>
 				<Typography sx={{ color: 'text.secondary' }}>
@@ -58,6 +59,9 @@ export default function MoveInformation({ name, level, learnMethod }: MoveInform
 				}
 				{!isLoading && !error && move &&
 					<>
+                        <Typography>
+                            Type: <PokemonType name={capitalize(move.type.name)} />
+                        </Typography>
 	                    <Typography>
 	                        Power: {move.power ?? 0}
 	                    </Typography>

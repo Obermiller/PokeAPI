@@ -3,8 +3,6 @@ import { NamedAPIResource } from 'pokenode-ts';
 import React from 'react';
 
 const style = {
-	width: '100%',
-	maxWidth: 360,
 	bgcolor: 'background.paper'
 };
 
@@ -15,7 +13,7 @@ type DamageRelationListProps = {
 
 export default function DamageRelationList({ariaLabel, damageRelations}: DamageRelationListProps): JSX.Element {
 	return (
-		<List sx={style} component='nav' aria-label={ariaLabel}>
+		<List className='damage-relation-list' sx={style} component='nav' aria-label={ariaLabel}>
 			{damageRelations.map((x) => {
 				return (
 					<div key={x.name}>

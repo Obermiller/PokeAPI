@@ -1,6 +1,7 @@
-import { Backdrop, Box, Fade, Link, Modal, Typography } from '@mui/material';
+import { Backdrop, Box, capitalize, Fade, Link, Modal, Typography } from '@mui/material';
 import { PokemonClient, Type } from 'pokenode-ts';
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useContext, useState } from 'react';
+import { LoadedTypeContext } from './LoadedTypeContext';
 import { AjaxResult } from './PokemonInformation';
 import { TypeContext } from './TypeContext';
 import TypeTabs from './TypeTabs';
@@ -10,14 +11,7 @@ type PokemonTypeProps = {
 }
 
 const style = {
-	position: 'absolute',
-	top: '50%',
-	left: '50%',
-	transform: 'translate(-50%, -50%)',
-	width: 700,
-	height: 600,
 	bgcolor: 'background.paper',
-	border: '2px solid #000',
 	boxShadow: 24,
 	p: 4,
 };
@@ -29,23 +23,34 @@ export default function PokemonType({name}: PokemonTypeProps): JSX.Element {
 	const [error, setError] = useState<AjaxResult>();
 	//Modal hooks
 	const [open, setOpen] = useState(false);
+	const loadedTypes = useContext(LoadedTypeContext);
 
 	const handleClose = () => setOpen(false);
 
 	const handleOpen = useCallback(async () => {
-		if (isLoading) {
-			return
+		if (type || isLoading) {
+			setOpen(true);
+			return;
 		}
 
-		setIsLoading(true);
+		if (loadedTypes.map(x => capitalize(x.name)).includes(name)) {
+			setType(loadedTypes.filter(x => x.name === name.toLowerCase())[0]);
+		}
+		else {
+			setIsLoading(true);
 
-		await new PokemonClient().getTypeByName(name.toLowerCase())
-			.then((result: Type) => setType(result))
-			.catch((err) => setError(err))
-			.finally(() => setIsLoading(false));
+			await new PokemonClient().getTypeByName(name.toLowerCase())
+				.then((result: Type) => {
+					setType(result);
+					loadedTypes.push(result);
+				})
+				.catch((err) => setError(err))
+				.finally(() => setIsLoading(false));
+		}
 
 		setOpen(true);
-	}, [name, isLoading]);
+
+	}, [isLoading, loadedTypes, name, type]);
 
 	return (
 		<>
@@ -62,13 +67,13 @@ export default function PokemonType({name}: PokemonTypeProps): JSX.Element {
 				BackdropProps={{ timeout: 500 }}
 			>
 				<Fade in={open}>
-					<Box sx={style}>
+					<Box className='type-modal' sx={style}>
 						{!error &&
 							<>
                                 <Typography variant='h6' component='h2'>
 									{name}
                                 </Typography>
-                                <TypeContext.Provider value = {type}>
+                                <TypeContext.Provider value={type}>
                                     <TypeTabs />
                                 </TypeContext.Provider>
 							</>

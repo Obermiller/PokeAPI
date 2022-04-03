@@ -39,8 +39,8 @@ export function MovesTable({isNatural} : MovesTableProps): JSX.Element {
 		<div>
 			<Typography variant='h5'>{isNatural ? 'Natural' : 'Learnable'} Moves</Typography>
 
-			<Paper sx={{ width: '100%', overflow: 'hidden' }}>
-				<TableContainer sx={{ maxHeight: 1000 }}>
+			<Paper className='move-table-wrapper'>
+				<TableContainer className='move-table-container'>
 					<Table stickyHeader aria-label='moves table'>
 						<TableBody>
 							{rows
