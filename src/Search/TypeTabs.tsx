@@ -9,6 +9,10 @@ type TabPanelProps = {
 	value: number;
 }
 
+type TypeTabProps = {
+	damageRelations?: TypeRelations
+}
+
 export const TabPanel = ({ children, value, index, ...other }: TabPanelProps) => {
 	return (
 		<div role='tabpanel' hidden={value !== index} id={`tabpanel-${index}`} aria-labelledby={`tab-${index}`} {...other}>
@@ -28,10 +32,6 @@ export const tabHeaderProps = (index: number) => {
 	};
 }
 
-type TypeTabProps = {
-	damageRelations?: TypeRelations
-}
-
 export default function TypeTabs({damageRelations} : TypeTabProps): JSX.Element {
 	const [value, setValue] = useState(0);
 
@@ -46,12 +46,12 @@ export default function TypeTabs({damageRelations} : TypeTabProps): JSX.Element 
 					<Tab label='Offensive' {...tabHeaderProps(0)} />
 					<Tab label='Defensive' {...tabHeaderProps(1)} />
 				</Tabs>
-					<TabPanel value={value} index={0}>
-						<DamageRelationTabs doubleDamageTypes={damageRelations.double_damage_to} halfDamageTypes={damageRelations.half_damage_to} noEffectTypes={damageRelations.no_damage_to} />
-					</TabPanel>
-					<TabPanel value={value} index={1}>
-						<DamageRelationTabs doubleDamageTypes={damageRelations.double_damage_from} halfDamageTypes={damageRelations.half_damage_from} noEffectTypes={damageRelations.no_damage_from} />
-					</TabPanel>
+				<TabPanel value={value} index={0}>
+					<DamageRelationTabs doubleDamageTypes={damageRelations.double_damage_to} halfDamageTypes={damageRelations.half_damage_to} noEffectTypes={damageRelations.no_damage_to} />
+				</TabPanel>
+				<TabPanel value={value} index={1}>
+					<DamageRelationTabs doubleDamageTypes={damageRelations.double_damage_from} halfDamageTypes={damageRelations.half_damage_from} noEffectTypes={damageRelations.no_damage_from} />
+				</TabPanel>
 			</Box>
 		);
 	}

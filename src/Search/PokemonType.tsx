@@ -53,7 +53,7 @@ export default function PokemonType({name}: PokemonTypeProps): JSX.Element {
 
 	return (
 		<>
-			<Link component='button' variant='body2' onClick={handleOpen}>
+			<Link href='#' underline='none' onClick={handleOpen}>
 				{name}
 			</Link>
 			<Modal
@@ -69,7 +69,7 @@ export default function PokemonType({name}: PokemonTypeProps): JSX.Element {
 					<Box className='type-modal' sx={style}>
 						{!error &&
 							<>
-                                <Typography variant='h6' component='h2'>
+                                <Typography variant='h6' component='h4'>
 									{name}
                                 </Typography>
 								<TypeTabs damageRelations={type?.damage_relations} />

@@ -25,7 +25,8 @@ export default function MoveInformation({ name, level, learnMethod }: MoveInform
 
 		setIsLoading(true);
 
-		await new MoveClient().getMoveByName(name)
+		await new MoveClient()
+			.getMoveByName(name)
 			.then((result: Move) => {
 				setMove(result)
 				if (error) {
