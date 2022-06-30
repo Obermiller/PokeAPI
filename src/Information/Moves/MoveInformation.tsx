@@ -2,9 +2,12 @@ import { Accordion, AccordionDetails, AccordionSummary, capitalize, Typography }
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { Move, MoveClient } from 'pokenode-ts';
 import React, { useCallback, useState } from 'react';
-import { formatMoveDisplay } from '../UtilityMethods';
-import { AjaxResult } from './PokemonInformation';
-import PokemonType from './PokemonType';
+import { useDispatch, useSelector } from 'react-redux';
+import { AjaxResult } from '../../Common/AjaxResult';
+import { Store } from '../../Store/Store';
+import { appendMove } from '../../Store/Types';
+import { formatMoveDisplay } from '../../Common/UtilityMethods';
+import PokemonType from '../Types/PokemonType';
 
 type MoveInformationProps = {
 	name: string,
@@ -13,6 +16,10 @@ type MoveInformationProps = {
 }
 
 export default function MoveInformation({ name, level, learnMethod }: MoveInformationProps): JSX.Element {
+	//Redux
+	const storedMoves = useSelector((state: Store) => state.moves);
+	const dispatch = useDispatch();
+
 	const [move, setMove] = useState<Move | undefined>();
 	//Ajax hooks
 	const [isLoading, setIsLoading] = useState(false);
@@ -23,19 +30,25 @@ export default function MoveInformation({ name, level, learnMethod }: MoveInform
 			return
 		}
 
-		setIsLoading(true);
+		if (storedMoves.map(x => capitalize(x.name)).includes(name)) {
+			setMove(storedMoves.filter(x => x.name === name.toLowerCase())[0]);
+		}
+		else {
+			setIsLoading(true);
 
-		await new MoveClient()
-			.getMoveByName(name)
-			.then((result: Move) => {
-				setMove(result)
-				if (error) {
-					setError(undefined);
-				}
-			})
-			.catch((err) => setError(err))
-			.finally(() => setIsLoading(false));
-	}, [error, isLoading, move, name]);
+			await new MoveClient()
+				.getMoveByName(name)
+				.then((result: Move) => {
+					setMove(result);
+					dispatch(appendMove(result));
+					if (error) {
+						setError(undefined);
+					}
+				})
+				.catch((err) => setError(err))
+				.finally(() => setIsLoading(false));
+		}
+	}, [dispatch, error, isLoading, move, name, storedMoves]);
 
 	return (
 		<Accordion>

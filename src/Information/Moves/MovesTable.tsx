@@ -1,26 +1,17 @@
-import {
-	capitalize,
-	Paper,
-	Table,
-	TableBody,
-	TableCell,
-	TableContainer,
-	TablePagination,
-	TableRow, Typography
-} from '@mui/material';
-import React, { ChangeEvent, useContext, useState } from 'react';
-import { levelSort, stringSort } from '../UtilityMethods';
+import { capitalize, Paper, Table, TableBody, TableCell, TableContainer, TablePagination, TableRow, Typography } from '@mui/material';
+import { PokemonMove } from 'pokenode-ts';
+import React, { ChangeEvent, useState } from 'react';
+import { levelSort, stringSort } from '../../Common/UtilityMethods';
 import MoveInformation from './MoveInformation';
-import { PokemonMoveContext } from './PokemonMoveContext';
 
 type MovesTableProps = {
-	isNatural: boolean
+	isNatural: boolean,
+	moves: PokemonMove[];
 }
 
-export function MovesTable({isNatural} : MovesTableProps): JSX.Element {
+export function MovesTable({ isNatural, moves } : MovesTableProps): JSX.Element {
 	const [page, setPage] = useState(0);
 	const [rowsPerPage, setRowsPerPage] = useState(10);
-	const moves = useContext(PokemonMoveContext);
 
 	const handleChangePage = (event: unknown, newPage: number) => {
 		setPage(newPage);
@@ -32,8 +23,8 @@ export function MovesTable({isNatural} : MovesTableProps): JSX.Element {
 	};
 
 	const rows = isNatural
-		? moves.filter(x => x.version_group_details.map(y => y.level_learned_at)[0] > 0).sort((x, y) => levelSort(x, y))
-		: moves.filter(x => x.version_group_details.map(y => y.level_learned_at)[0] === 0).sort((x, y) => stringSort(x.move.name, y.move.name))
+		? moves.sort((x, y) => levelSort(x, y))
+		: moves.sort((x, y) => stringSort(x.move.name, y.move.name))
 
 	return (
 		<div>

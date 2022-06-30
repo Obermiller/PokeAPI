@@ -1,6 +1,8 @@
-# Getting Started with Create React App
+# Getting Started with PokeAPI App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+
+It was built using Node version 16.13.2
 
 ## Available Scripts
 

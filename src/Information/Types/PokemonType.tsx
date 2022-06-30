@@ -1,8 +1,10 @@
 import { Backdrop, Box, capitalize, Fade, Link, Modal, Typography } from '@mui/material';
 import { PokemonClient, Type } from 'pokenode-ts';
-import React, { useCallback, useContext, useState } from 'react';
-import { LoadedTypeContext } from './LoadedTypeContext';
-import { AjaxResult } from './PokemonInformation';
+import React, { useCallback, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { AjaxResult } from '../../Common/AjaxResult';
+import { Store } from '../../Store/Store';
+import { appendType } from '../../Store/Types';
 import TypeTabs from './TypeTabs';
 
 type PokemonTypeProps = {
@@ -16,13 +18,16 @@ const style = {
 };
 
 export default function PokemonType({name}: PokemonTypeProps): JSX.Element {
+	//Redux
+	const storedTypes = useSelector((state: Store) => state.types);
+	const dispatch = useDispatch();
+
 	const [type, setType] = useState<Type | undefined>();
 	//Ajax hooks
 	const [isLoading, setIsLoading] = useState(false);
 	const [error, setError] = useState<AjaxResult>();
 	//Modal hooks
 	const [open, setOpen] = useState(false);
-	const loadedTypes = useContext(LoadedTypeContext);
 
 	const handleClose = () => setOpen(false);
 
@@ -32,8 +37,8 @@ export default function PokemonType({name}: PokemonTypeProps): JSX.Element {
 			return;
 		}
 
-		if (loadedTypes.map(x => capitalize(x.name)).includes(name)) {
-			setType(loadedTypes.filter(x => x.name === name.toLowerCase())[0]);
+		if (storedTypes.map(x => capitalize(x.name)).includes(name)) {
+			setType(storedTypes.filter(x => x.name === name.toLowerCase())[0]);
 		}
 		else {
 			setIsLoading(true);
@@ -41,7 +46,7 @@ export default function PokemonType({name}: PokemonTypeProps): JSX.Element {
 			await new PokemonClient().getTypeByName(name.toLowerCase())
 				.then((result: Type) => {
 					setType(result);
-					loadedTypes.push(result);
+					dispatch(appendType(result));
 				})
 				.catch((err) => setError(err))
 				.finally(() => setIsLoading(false));
@@ -49,7 +54,7 @@ export default function PokemonType({name}: PokemonTypeProps): JSX.Element {
 
 		setOpen(true);
 
-	}, [isLoading, loadedTypes, name, type]);
+	}, [dispatch, isLoading, name, storedTypes, type]);
 
 	return (
 		<>

@@ -2,7 +2,7 @@ import { Box, Tab, Tabs } from '@mui/material';
 import { NamedAPIResource } from 'pokenode-ts';
 import React, { SyntheticEvent, useState } from 'react';
 import DamageRelationList from './DamageRelationList';
-import { tabHeaderProps, TabPanel } from './TypeTabs';
+import { tabHeaderProps, TabPanel } from '../Types/TypeTabs';
 
 type DamageRelationTabsProps = {
 	doubleDamageTypes: NamedAPIResource[];
