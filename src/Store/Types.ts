@@ -1,5 +1,5 @@
 import { Move, Pokemon, Type } from 'pokenode-ts';
-import { AjaxResult } from '../Common/AjaxResult';
+import { AjaxResult } from '../Common/Types/AjaxResult';
 
 export const APPEND_MOVE = 'APPEND_MOVE';
 export const APPEND_TYPE = 'APPEND_TYPE';

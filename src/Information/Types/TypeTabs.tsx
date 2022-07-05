@@ -35,29 +35,29 @@ export const tabHeaderProps = (index: number) => {
 export default function TypeTabs({damageRelations} : TypeTabProps): JSX.Element {
 	const [value, setValue] = useState(0);
 
-	const handleChange = (event: SyntheticEvent, newValue: number) => {
+	const handleChange = (event: SyntheticEvent, newValue: number): void => {
 		setValue(newValue);
 	};
 
-	if (damageRelations) {
-		return (
-			<Box className='type-tab-container' sx={{ bgcolor: 'background.paper' }}>
-				<Tabs orientation='vertical' variant='scrollable' value={value} onChange={handleChange} aria-label='offensive or defensive' sx={{ borderColor: 'divider' }}>
-					<Tab label='Offensive' {...tabHeaderProps(0)} />
-					<Tab label='Defensive' {...tabHeaderProps(1)} />
-				</Tabs>
-				<TabPanel value={value} index={0}>
-					<DamageRelationTabs doubleDamageTypes={damageRelations.double_damage_to} halfDamageTypes={damageRelations.half_damage_to} noEffectTypes={damageRelations.no_damage_to} />
-				</TabPanel>
-				<TabPanel value={value} index={1}>
-					<DamageRelationTabs doubleDamageTypes={damageRelations.double_damage_from} halfDamageTypes={damageRelations.half_damage_from} noEffectTypes={damageRelations.no_damage_from} />
-				</TabPanel>
-			</Box>
-		);
-	}
-	else {
-		return (
-			<div>No type provided.</div>
-		);
-	}
+	return(
+		<>
+			{damageRelations &&
+                <Box className='type-tab-container' sx={{ bgcolor: 'background.paper' }}>
+                    <Tabs orientation='vertical' variant='scrollable' value={value} onChange={handleChange} aria-label='offensive or defensive' sx={{ borderColor: 'divider' }}>
+                        <Tab label='Offensive' {...tabHeaderProps(0)} />
+                        <Tab label='Defensive' {...tabHeaderProps(1)} />
+                    </Tabs>
+                    <TabPanel value={value} index={0}>
+                        <DamageRelationTabs doubleDamageTypes={damageRelations.double_damage_to} halfDamageTypes={damageRelations.half_damage_to} noEffectTypes={damageRelations.no_damage_to} />
+                    </TabPanel>
+                    <TabPanel value={value} index={1}>
+                        <DamageRelationTabs doubleDamageTypes={damageRelations.double_damage_from} halfDamageTypes={damageRelations.half_damage_from} noEffectTypes={damageRelations.no_damage_from} />
+                    </TabPanel>
+                </Box>
+			}
+			{!damageRelations &&
+                <div>No type provided.</div>
+			}
+		</>
+	);
 }

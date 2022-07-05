@@ -3,10 +3,10 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { Move, MoveClient } from 'pokenode-ts';
 import React, { useCallback, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { AjaxResult } from '../../Common/AjaxResult';
+import { AjaxResult } from '../../Common/Types/AjaxResult';
 import { Store } from '../../Store/Store';
 import { appendMove } from '../../Store/Types';
-import { formatMoveDisplay } from '../../Common/UtilityMethods';
+import { formatMoveDisplay } from '../../Common/Methods/UtilityMethods';
 import PokemonType from '../Types/PokemonType';
 
 type MoveInformationProps = {
@@ -25,7 +25,7 @@ export default function MoveInformation({ name, level, learnMethod }: MoveInform
 	const [isLoading, setIsLoading] = useState(false);
 	const [error, setError] = useState<AjaxResult>();
 
-	const getData = useCallback(async () => {
+	const getData = useCallback(async (): Promise<void> => {
 		if (move || isLoading) {
 			return
 		}

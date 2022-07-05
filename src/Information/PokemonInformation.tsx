@@ -1,7 +1,7 @@
 import { capitalize, Grid, Typography } from '@mui/material';
 import React from 'react';
 import { useSelector } from 'react-redux';
-import ImageContainer from '../Common/ImageContainer';
+import ImageContainer from '../Common/Components/ImageContainer';
 import { Store } from '../Store/Store';
 import { MovesTable } from './Moves/MovesTable';
 import PokemonType from './Types/PokemonType';
@@ -14,9 +14,6 @@ export default function PokemonInformation(): JSX.Element {
 
     return (
         <>
-            {!isLoaded && !error &&
-                <></>
-            }
             {isLoaded && pokemon?.sprites.front_default &&
                 <div>
                     <Typography variant='h1'>{ name }</Typography>

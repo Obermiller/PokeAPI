@@ -13,7 +13,7 @@ type DamageRelationTabsProps = {
 export default function DamageRelationTabs({ doubleDamageTypes, halfDamageTypes, noEffectTypes }: DamageRelationTabsProps): JSX.Element {
 	const [value, setValue] = useState(0);
 
-	const handleChange = (event: SyntheticEvent, newValue: number) => {
+	const handleChange = (event: SyntheticEvent, newValue: number): void => {
 		setValue(newValue);
 	};
 

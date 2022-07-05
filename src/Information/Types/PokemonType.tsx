@@ -2,7 +2,7 @@ import { Backdrop, Box, capitalize, Fade, Link, Modal, Typography } from '@mui/m
 import { PokemonClient, Type } from 'pokenode-ts';
 import React, { useCallback, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { AjaxResult } from '../../Common/AjaxResult';
+import { AjaxResult } from '../../Common/Types/AjaxResult';
 import { Store } from '../../Store/Store';
 import { appendType } from '../../Store/Types';
 import TypeTabs from './TypeTabs';
@@ -29,9 +29,9 @@ export default function PokemonType({name}: PokemonTypeProps): JSX.Element {
 	//Modal hooks
 	const [open, setOpen] = useState(false);
 
-	const handleClose = () => setOpen(false);
+	const handleClose = (): void => setOpen(false);
 
-	const handleOpen = useCallback(async () => {
+	const handleOpen = useCallback(async (): Promise<void> => {
 		if (type || isLoading) {
 			setOpen(true);
 			return;

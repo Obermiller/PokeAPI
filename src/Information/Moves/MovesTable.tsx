@@ -1,7 +1,7 @@
 import { capitalize, Paper, Table, TableBody, TableCell, TableContainer, TablePagination, TableRow, Typography } from '@mui/material';
 import { PokemonMove } from 'pokenode-ts';
 import React, { ChangeEvent, useState } from 'react';
-import { levelSort, stringSort } from '../../Common/UtilityMethods';
+import { levelSort, stringSort } from '../../Common/Methods/UtilityMethods';
 import MoveInformation from './MoveInformation';
 
 type MovesTableProps = {
@@ -13,11 +13,11 @@ export function MovesTable({ isNatural, moves } : MovesTableProps): JSX.Element 
 	const [page, setPage] = useState(0);
 	const [rowsPerPage, setRowsPerPage] = useState(10);
 
-	const handleChangePage = (event: unknown, newPage: number) => {
+	const handleChangePage = (event: unknown, newPage: number): void => {
 		setPage(newPage);
 	};
 
-	const handleChangeRowsPerPage = (event: ChangeEvent<HTMLInputElement>) => {
+	const handleChangeRowsPerPage = (event: ChangeEvent<HTMLInputElement>): void => {
 		setRowsPerPage(+event.target.value);
 		setPage(0);
 	};

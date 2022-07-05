@@ -12,16 +12,16 @@ export default function SearchBar(): JSX.Element {
 
 	const searchButton = useRef<HTMLButtonElement>(null);
 
-	const handleKeyDown = (e: KeyboardEvent<HTMLDivElement>) => {
+	const handleKeyDown = (e: KeyboardEvent<HTMLDivElement>): void => {
 		if (e.key === 'Enter' && searchButton.current) {
 			dispatch(clearSearchInfo());
 			searchButton.current.click();
 		}
 	}
 
-	const searchInputHandler = (e: ChangeEvent<HTMLInputElement>) => setSearchInputText(e.currentTarget.value);
+	const searchInputHandler = (e: ChangeEvent<HTMLInputElement>): void => setSearchInputText(e.currentTarget.value);
 
-	const getPokemon = async () => {
+	const getPokemon = async (): Promise<void> => {
 		await new PokemonClient()
 			.getPokemonByName(searchInputText.toLowerCase())
 			.then((result: Pokemon) => {

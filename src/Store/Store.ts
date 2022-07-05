@@ -1,7 +1,7 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { Move, Pokemon, Type } from 'pokenode-ts';
-import { AjaxResult } from '../Common/AjaxResult';
-import { appendToArray } from '../Common/UtilityMethods';
+import { AjaxResult } from '../Common/Types/AjaxResult';
+import { appendToArray } from '../Common/Methods/UtilityMethods';
 import { ActionTypes, APPEND_MOVE, APPEND_TYPE, CLEAR_SEARCH_INFO, IS_LOADED, SET_ERROR, SET_POKEMON } from './Types';
 
 export interface SearchInfo {
