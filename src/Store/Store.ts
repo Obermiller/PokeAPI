@@ -4,13 +4,13 @@ import { AjaxResult } from '../Common/Types/AjaxResult';
 import { appendToArray } from '../Common/Methods/UtilityMethods';
 import { ActionTypes, APPEND_MOVE, APPEND_TYPE, CLEAR_SEARCH_INFO, IS_LOADED, SET_ERROR, SET_POKEMON } from './Types';
 
-export interface SearchInfo {
+type SearchInfo = {
 	pokemon?: Pokemon;
 	isLoaded: boolean;
 	error?: AjaxResult;
 }
 
-export interface Store {
+export type Store = {
 	searchInfo: SearchInfo;
 	moves: Move[];
 	types: Type[];
