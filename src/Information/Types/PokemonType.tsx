@@ -17,7 +17,7 @@ const style = {
 	p: 4,
 };
 
-export default function PokemonType({name}: PokemonTypeProps): JSX.Element {
+export default function PokemonType({ name }: PokemonTypeProps): JSX.Element {
 	//Redux
 	const storedTypes = useSelector((state: Store) => state.types);
 	const dispatch = useDispatch();

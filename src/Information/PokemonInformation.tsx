@@ -16,7 +16,7 @@ export default function PokemonInformation(): JSX.Element {
         <>
             {isLoaded && pokemon?.sprites.front_default &&
                 <div>
-                    <Typography variant='h1'>{ name }</Typography>
+
                     <div>
                         <Typography variant='h4'>
                             Type{ pokemon.types.length > 1 ? 's' : '' }:&nbsp;
